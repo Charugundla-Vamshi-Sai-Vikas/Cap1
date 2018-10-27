@@ -82,7 +82,61 @@ public class SeekerProfile extends AppCompatActivity
 	       }
 	  });
      }
-     
+
+     public void image(View v)
+     {
+	  Intent i = new Intent();
+	  i.setAction(Intent.ACTION_GET_CONTENT);
+	  i.setType("image/*");
+	  startActivityForResult(i , gallerypicture);
+     }
+
+     @Override
+     protected void onActivityResult(int requestCode , int resultCode , @Nullable Intent data)
+     {
+	  super.onActivityResult(requestCode , resultCode , data);
+
+	  if(requestCode == gallerypicture && resultCode == RESULT_OK && data != null)
+	  {
+	       Uri imageuri = data.getData();
+
+	       CropImage.activity().setAspectRatio(1 , 1).start(SeekerProfile.this);
+	  }
+
+	  if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE)
+	  {
+	       CropImage.ActivityResult result = CropImage.getActivityResult(data);
+
+	       if(resultCode == RESULT_OK)
+	       {
+		    Uri resulturi = result.getUri();
+		    final StorageReference filepath = UserProfileImagesReference.child(mAuth.getCurrentUser() + ".jpg");
+		    filepath.putFile(resulturi).addOnCompleteListener(this , new OnCompleteListener<UploadTask.TaskSnapshot>()
+		    {
+			 @Override
+			 public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task)
+			 {
+			      if(task.isSuccessful())
+			      {
+				   Toast.makeText(SeekerProfile.this , "Image Uploaded Successfully" , Toast.LENGTH_SHORT).show();
+
+				   final String imageurl = filepath.getDownloadUrl().toString();
+				   final String uid = mAuth.getCurrentUser().getUid().toString();
+
+				   mDatabase.child("Users").child(uid).child("Profile Image").setValue(imageurl);
+			      }
+			      else
+			      {
+			           String errormessage = String.valueOf(task.getException());
+			           Toast.makeText(SeekerProfile.this , "Error : " + errormessage , Toast.LENGTH_SHORT).show();
+			      }
+			 }
+		    });
+	       }
+
+	  }
+     }
+
      @Override
      public void onBackPressed()
      {
