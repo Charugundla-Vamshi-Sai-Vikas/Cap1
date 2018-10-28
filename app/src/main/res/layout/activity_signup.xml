@@ -97,7 +97,7 @@
 			      android:onClick="onRadioButtonclicked"
 			      android:padding="8dp"
 			      android:text="Recruiter"
-			      android:textColor="@color/black" />
+			      android:textColor="@color/blck" />
 
 			 <RadioButton
 			      android:id="@+id/Radio_btn_seeker"
@@ -108,7 +108,7 @@
 			      android:onClick="onRadioButtonclicked"
 			      android:padding="8dp"
 			      android:text="Seeker"
-			      android:textColor="@color/black" />
+			      android:textColor="@color/blck" />
 
 		    </RadioGroup>
 

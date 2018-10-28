@@ -26,14 +26,14 @@
 		    android:layout_width="match_parent"
 		    android:layout_height="wrap_content"
 		    android:adjustViewBounds="true"
-		    android:src="@drawable/cover2"
+		    android:src="@drawable/cover1"
 		    app:layout_collapseMode="parallax"
 		    app:layout_collapseParallaxMultiplier="0.7" />
 
 	       <de.hdodenhof.circleimageview.CircleImageView
 		    android:layout_width="200dp"
 		    android:onClick="image"
-		    android:id="@+id/profile_image_seeker"
+		    android:id="@+id/profile_image"
 		    android:transitionName="trans1"
 		    app:layout_collapseMode="parallax"
 		    app:layout_collapseParallaxMultiplier="0.7"
@@ -56,16 +56,6 @@
 	  </android.support.design.widget.CollapsingToolbarLayout>
      </android.support.design.widget.AppBarLayout>
 
-     <include layout="@layout/seeker_profile_data_view" />
-
-     <android.support.design.widget.FloatingActionButton
-	  android:id="@+id/fab"
-	  android:layout_width="wrap_content"
-	  android:onClick="edit_seeker"
-	  android:layout_height="wrap_content"
-	  android:layout_margin="@dimen/fab_margin"
-	  android:src="@drawable/ic_edit_black_24dp"
-	  app:layout_anchor="@id/app_bar"
-	  app:layout_anchorGravity="bottom|end" />
+     <include layout="@layout/recruiter_profile_data_edit" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
      package="com.kvsn.builds.cap1">
 
+     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+     <uses-permission android:name="android.permission.INTERNET" />
+
      <application
 	  android:allowBackup="true"
 	  android:icon="@mipmap/ic_launcher_round"
@@ -24,7 +28,10 @@
 	       android:name=".RecruiterProfile"
 	       android:parentActivityName=".RecruiterMain" />
 	  <activity android:name=".SeekerProfile" />
-	  <activity android:name=".SeekerMain"></activity>
+	  <activity android:name=".SeekerMain" />
+	  <activity android:name=".PhotoActivity" />
+	  <activity android:name=".EditRecruiter" />
+	  <activity android:name=".EditSeeker"></activity>
      </application>
 
 </manifest>

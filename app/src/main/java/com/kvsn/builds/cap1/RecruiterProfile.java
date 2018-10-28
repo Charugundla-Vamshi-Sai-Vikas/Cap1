@@ -80,4 +80,15 @@ public class RecruiterProfile extends AppCompatActivity
 	  super.onBackPressed();
 	  finish();
      }
+
+     public void image(View v)
+     {
+          startActivity(new Intent(RecruiterProfile.this , PhotoActivity.class));
+     }
+
+     public void edit_recruiter(View v)
+     {
+          startActivity(new Intent(RecruiterProfile.this , EditRecruiter.class));
+          overridePendingTransition(R.anim.fadein , R.anim.fadeout);
+     }
 }

@@ -82,6 +82,17 @@ public class SeekerProfile extends AppCompatActivity
 	       }
 	  });
      }
+
+     public void image(View v)
+     {
+          startActivity(new Intent(SeekerProfile.this , PhotoActivity.class));
+     }
+
+     public void edit_seeker(View v)
+     {
+          startActivity(new Intent(SeekerProfile.this , EditSeeker.class));
+          overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+     }
      @Override
      public void onBackPressed()
      {

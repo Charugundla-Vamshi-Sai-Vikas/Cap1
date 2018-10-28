@@ -56,7 +56,7 @@
 	  </android.support.design.widget.CollapsingToolbarLayout>
      </android.support.design.widget.AppBarLayout>
 
-     <include layout="@layout/seeker_profile_data_view" />
+     <include layout="@layout/seeker_profile_data_edit" />
 
      <android.support.design.widget.FloatingActionButton
 	  android:id="@+id/fab"
