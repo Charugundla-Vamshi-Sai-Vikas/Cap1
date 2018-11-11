@@ -42,6 +42,11 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:16.0.5'
     implementation 'com.google.firebase:firebase-storage:11.8.0'
 
+    //maps libraries
+    implementation 'com.google.android.gms:play-services-maps:16.0.0'
+    implementation 'com.google.android.gms:play-services-places:16.0.0'
+    implementation 'com.google.android.gms:play-services-location:16.0.0'
+
     //third party libraries implementations
     //for custom navigation drawer from Psd company github
     implementation 'nl.psdcompany:duo-navigation-drawer:2.0.8'
