@@ -53,9 +53,9 @@ public class Signup extends AppCompatActivity implements View.OnClickListener, A
 	  mAuth = FirebaseAuth.getInstance();
 
 	  database = FirebaseDatabase.getInstance().getReference();
+	  dup_ref = database.child("Users");
 	  rec_ref = database.child("Recruiter");
 	  seeker_ref = database.child("Seeker");
-	  dup_ref = database.child("Users");
 
 	  currentUser = FirebaseAuth.getInstance().getCurrentUser();
 	  init();
@@ -340,8 +340,6 @@ public class Signup extends AppCompatActivity implements View.OnClickListener, A
 
      public void onRadioButtonclicked(View view)
      {
-	  boolean checked = (view).isClickable();
-
 	  switch(view.getId())
 	  {
 	       case R.id.Radio_btn_seeker:
@@ -378,6 +376,7 @@ public class Signup extends AppCompatActivity implements View.OnClickListener, A
 	  City = spinner_City.getSelectedItem().toString().trim();
 	  Pincode = editTextPincode.getText().toString().trim();
 	  Confirm_password = editTextConfirmPassword.getText().toString().trim();
+	  id = currentUser.getUid();
 
 	  String m = editTextEmail.getText().toString();
 	  String p = editTextPassword.getText().toString();
@@ -390,11 +389,12 @@ public class Signup extends AppCompatActivity implements View.OnClickListener, A
 	  Toast.makeText(getApplication() , "outside" , Toast.LENGTH_LONG).show();
 	  //pd.setTitle("Registering Please Wait");
 	  //pd.show();
-	  mAuth.createUserWithEmailAndPassword(m , p).addOnSuccessListener(this , new OnSuccessListener<AuthResult>()
+	  mAuth.createUserWithEmailAndPassword(m , p).addOnSuccessListener(Signup.this , new OnSuccessListener<AuthResult>()
 	  {
 	       @Override
 	       public void onSuccess(AuthResult authResult)
 	       {
+		    Toast.makeText(Signup.this , "User Registered" , Toast.LENGTH_SHORT).show();
 		    writedata();
 	       }
 	  }).addOnFailureListener(new OnFailureListener()
@@ -407,278 +407,73 @@ public class Signup extends AppCompatActivity implements View.OnClickListener, A
 	  });
 
      }
-
      public void duplicate()
      {
 	  Toast.makeText(getApplicationContext() , "Inside" , Toast.LENGTH_LONG).show();
-	  Log.d(TAG , Email);
-	  pd.dismiss();
-	  id = currentUser.getUid().toString();
-
 	  User u = new User(Email , id , Contact_Number , Aadhar_Number , Street_No , Pincode , State , City , Gender , Profession , Type , Name , Alternate_Contact_Number);
-	  Log.d(TAG , database.toString());
 	  subref = dup_ref.child(id);
-	  subref.child("Email").setValue(u.getEmail().toString());
-	  subref.child("Name").setValue(u.getName().toString());
-	  subref.child("Id").setValue(u.getId().toString());
-	  subref.child("Mobile").setValue(u.getContact_Number().toString());
-	  subref.child("Alternate Mobile").setValue(u.getAlternate_Contact_Number().toString());
-	  subref.child("Aadhaar").setValue(u.getAadhar_Number().toString());
-	  subref.child("Address").setValue(u.getStreet_No().toString());
-	  subref.child("Pincode").setValue(u.getPincode().toString());
-	  subref.child("State").setValue(u.getState().toString());
-	  subref.child("City").setValue(u.getCity().toString());
-	  subref.child("Gender").setValue(u.getGender().toString());
-	  subref.child("Profession").setValue(u.getProfession().toString());
-	  subref.child("Type").setValue(u.getType().toString());
+	  subref.child("Email").setValue(u.getEmail());
+	  subref.child("Name").setValue(u.getName());
+	  subref.child("Id").setValue(u.getId());
+	  subref.child("Mobile").setValue(u.getContact_Number());
+	  subref.child("Alternate Mobile").setValue(u.getAlternate_Contact_Number());
+	  subref.child("Aadhaar").setValue(u.getAadhar_Number());
+	  subref.child("Address").setValue(u.getStreet_No());
+	  subref.child("Pincode").setValue(u.getPincode());
+	  subref.child("State").setValue(spinner_state.getSelectedItem());
+	  subref.child("City").setValue(spinner_City.getSelectedItem());
+	  subref.child("Gender").setValue(spinner_gender.getSelectedItem());
+	  subref.child("Profession").setValue(spinner_profession.getSelectedItem());
+	  subref.child("Type").setValue(u.getType());
 
 	  Toast.makeText(this , "User Data Write in DB Successful" , Toast.LENGTH_SHORT).show();
      }
 
      public void writedata()
      {
-
-
-	  if(radioButtonseeker.isChecked())
+          if(radioButtonrecruiter.isChecked())
 	  {
-	       if(spinner_profession.getSelectedItem().toString().equals("Plumber"))
-	       {
-		    Toast.makeText(getApplicationContext() , "Inside" , Toast.LENGTH_LONG).show();
-		    Log.d(TAG , Email);
-		    pd.dismiss();
-		    id = currentUser.getUid().toString();
-
-		    User u = new User(Email , id , Contact_Number , Aadhar_Number , Street_No , Pincode , State , City , Gender , Profession , Type , Name , Alternate_Contact_Number);
-		    Log.d(TAG , database.toString());
-		    subref = seeker_ref.child("Plumber").child(id);
-		    subref.child("Email").setValue(u.getEmail().toString());
-		    subref.child("Name").setValue(u.getName().toString());
-		    subref.child("Id").setValue(u.getId().toString());
-		    subref.child("Mobile").setValue(u.getContact_Number().toString());
-		    subref.child("Alternate Mobile").setValue(u.getAlternate_Contact_Number().toString());
-		    subref.child("Aadhaar").setValue(u.getAadhar_Number().toString());
-		    subref.child("Address").setValue(u.getStreet_No().toString());
-		    subref.child("Pincode").setValue(u.getPincode().toString());
-		    subref.child("State").setValue(u.getState().toString());
-		    subref.child("City").setValue(u.getCity().toString());
-		    subref.child("Gender").setValue(u.getGender().toString());
-		    subref.child("Profession").setValue(u.getProfession().toString());
-		    subref.child("Type").setValue(u.getType().toString());
-
-		    duplicate();
-
-		    Toast.makeText(getApplicationContext() , "Email" + u.getEmail().toString() , Toast.LENGTH_SHORT).show();
-		    // Log.d(TAG,"Email id:"+u.getEmail().toString());
-		    //Log.d(TAG,"Mobile:"+u.getContact_Number().toString());
-		    Toast.makeText(getApplicationContext() , "Contact:" + u.getContact_Number().toString() , Toast.LENGTH_SHORT).show();
-		    Toast.makeText(getApplication() , "user Registered" , Toast.LENGTH_SHORT).show();
-		    Toast.makeText(Signup.this , "Seeker" , Toast.LENGTH_SHORT).show();
-		    startActivity(new Intent(Signup.this , SeekerMain.class));
-	       }
-	       if(spinner_profession.getSelectedItem().toString().equals("Mason"))
-	       {
-		    Toast.makeText(getApplicationContext() , "Inside" , Toast.LENGTH_LONG).show();
-		    Log.d(TAG , Email);
-		    pd.dismiss();
-		    id = currentUser.getUid().toString();
-
-		    User u = new User(Email , id , Contact_Number , Aadhar_Number , Street_No , Pincode , State , City , Gender , Profession , Type , Name , Alternate_Contact_Number);
-		    Log.d(TAG , database.toString());
-		    subref = seeker_ref.child("Mason").child(id);
-		    subref.child("Email").setValue(u.getEmail().toString());
-		    subref.child("Name").setValue(u.getName().toString());
-		    subref.child("Id").setValue(u.getId().toString());
-		    subref.child("Mobile").setValue(u.getContact_Number().toString());
-		    subref.child("Alternate Mobile").setValue(u.getAlternate_Contact_Number().toString());
-		    subref.child("Aadhaar").setValue(u.getAadhar_Number().toString());
-		    subref.child("Address").setValue(u.getStreet_No().toString());
-		    subref.child("Pincode").setValue(u.getPincode().toString());
-		    subref.child("State").setValue(u.getState().toString());
-		    subref.child("City").setValue(u.getCity().toString());
-		    subref.child("Gender").setValue(u.getGender().toString());
-		    subref.child("Profession").setValue(u.getProfession().toString());
-		    subref.child("Type").setValue(u.getType().toString());
-
-		    duplicate();
-
-		    Toast.makeText(getApplicationContext() , "Email" + u.getEmail().toString() , Toast.LENGTH_SHORT).show();
-		    // Log.d(TAG,"Email id:"+u.getEmail().toString());
-		    //Log.d(TAG,"Mobile:"+u.getContact_Number().toString());
-		    Toast.makeText(getApplicationContext() , "Contact:" + u.getContact_Number().toString() , Toast.LENGTH_SHORT).show();
-		    Toast.makeText(getApplication() , "user Registered" , Toast.LENGTH_SHORT).show();
-		    Toast.makeText(Signup.this , "Seeker" , Toast.LENGTH_SHORT).show();
-		    startActivity(new Intent(Signup.this , SeekerMain.class));
-	       }
-	       if(spinner_profession.getSelectedItem().toString().equals("Labour"))
-	       {
-		    Toast.makeText(getApplicationContext() , "Inside" , Toast.LENGTH_LONG).show();
-		    Log.d(TAG , Email);
-		    pd.dismiss();
-		    id = currentUser.getUid().toString();
-
-		    User u = new User(Email , id , Contact_Number , Aadhar_Number , Street_No , Pincode , State , City , Gender , Profession , Type , Name , Alternate_Contact_Number);
-		    Log.d(TAG , database.toString());
-		    subref = seeker_ref.child("Labour").child(id);
-		    subref.child("Email").setValue(u.getEmail().toString());
-		    subref.child("Name").setValue(u.getName().toString());
-		    subref.child("Id").setValue(u.getId().toString());
-		    subref.child("Mobile").setValue(u.getContact_Number().toString());
-		    subref.child("Alternate Mobile").setValue(u.getAlternate_Contact_Number().toString());
-		    subref.child("Aadhaar").setValue(u.getAadhar_Number().toString());
-		    subref.child("Address").setValue(u.getStreet_No().toString());
-		    subref.child("Pincode").setValue(u.getPincode().toString());
-		    subref.child("State").setValue(u.getState().toString());
-		    subref.child("City").setValue(u.getCity().toString());
-		    subref.child("Gender").setValue(u.getGender().toString());
-		    subref.child("Profession").setValue(u.getProfession().toString());
-		    subref.child("Type").setValue(u.getType().toString());
-
-		    duplicate();
-
-		    Toast.makeText(getApplicationContext() , "Email" + u.getEmail().toString() , Toast.LENGTH_SHORT).show();
-		    // Log.d(TAG,"Email id:"+u.getEmail().toString());
-		    //Log.d(TAG,"Mobile:"+u.getContact_Number().toString());
-		    Toast.makeText(getApplicationContext() , "Contact:" + u.getContact_Number().toString() , Toast.LENGTH_SHORT).show();
-		    Toast.makeText(getApplication() , "user Registered" , Toast.LENGTH_SHORT).show();
-		    Toast.makeText(Signup.this , "Seeker" , Toast.LENGTH_SHORT).show();
-		    startActivity(new Intent(Signup.this , SeekerMain.class));
-	       }
-	       if(spinner_profession.getSelectedItem().toString().equals("Carpenter"))
-	       {
-		    Toast.makeText(getApplicationContext() , "Inside" , Toast.LENGTH_LONG).show();
-		    Log.d(TAG , Email);
-		    pd.dismiss();
-		    id = currentUser.getUid().toString();
-
-		    User u = new User(Email , id , Contact_Number , Aadhar_Number , Street_No , Pincode , State , City , Gender , Profession , Type , Name , Alternate_Contact_Number);
-		    Log.d(TAG , database.toString());
-		    subref = seeker_ref.child("Carpenter").child(id);
-		    subref.child("Email").setValue(u.getEmail().toString());
-		    subref.child("Name").setValue(u.getName().toString());
-		    subref.child("Id").setValue(u.getId().toString());
-		    subref.child("Mobile").setValue(u.getContact_Number().toString());
-		    subref.child("Alternate Mobile").setValue(u.getAlternate_Contact_Number().toString());
-		    subref.child("Aadhaar").setValue(u.getAadhar_Number().toString());
-		    subref.child("Address").setValue(u.getStreet_No().toString());
-		    subref.child("Pincode").setValue(u.getPincode().toString());
-		    subref.child("State").setValue(u.getState().toString());
-		    subref.child("City").setValue(u.getCity().toString());
-		    subref.child("Gender").setValue(u.getGender().toString());
-		    subref.child("Profession").setValue(u.getProfession().toString());
-		    subref.child("Type").setValue(u.getType().toString());
-
-		    duplicate();
-
-		    Toast.makeText(getApplicationContext() , "Email" + u.getEmail().toString() , Toast.LENGTH_SHORT).show();
-		    // Log.d(TAG,"Email id:"+u.getEmail().toString());
-		    //Log.d(TAG,"Mobile:"+u.getContact_Number().toString());
-		    Toast.makeText(getApplicationContext() , "Contact:" + u.getContact_Number().toString() , Toast.LENGTH_SHORT).show();
-		    Toast.makeText(getApplication() , "user Registered" , Toast.LENGTH_SHORT).show();
-		    Toast.makeText(Signup.this , "Seeker" , Toast.LENGTH_SHORT).show();
-		    startActivity(new Intent(Signup.this , SeekerMain.class));
-	       }
-	       if(spinner_profession.getSelectedItem().toString().equals("Painter"))
-	       {
-		    Toast.makeText(getApplicationContext() , "Inside" , Toast.LENGTH_LONG).show();
-		    Log.d(TAG , Email);
-		    pd.dismiss();
-		    id = currentUser.getUid().toString();
-
-		    User u = new User(Email , id , Contact_Number , Aadhar_Number , Street_No , Pincode , State , City , Gender , Profession , Type , Name , Alternate_Contact_Number);
-		    Log.d(TAG , database.toString());
-		    subref = seeker_ref.child("Painter").child(id);
-		    subref.child("Email").setValue(u.getEmail().toString());
-		    subref.child("Name").setValue(u.getName().toString());
-		    subref.child("Id").setValue(u.getId().toString());
-		    subref.child("Mobile").setValue(u.getContact_Number().toString());
-		    subref.child("Alternate Mobile").setValue(u.getAlternate_Contact_Number().toString());
-		    subref.child("Aadhaar").setValue(u.getAadhar_Number().toString());
-		    subref.child("Address").setValue(u.getStreet_No().toString());
-		    subref.child("Pincode").setValue(u.getPincode().toString());
-		    subref.child("State").setValue(u.getState().toString());
-		    subref.child("City").setValue(u.getCity().toString());
-		    subref.child("Gender").setValue(u.getGender().toString());
-		    subref.child("Profession").setValue(u.getProfession().toString());
-		    subref.child("Type").setValue(u.getType().toString());
-
-		    duplicate();
-
-		    Toast.makeText(getApplicationContext() , "Email" + u.getEmail().toString() , Toast.LENGTH_SHORT).show();
-		    // Log.d(TAG,"Email id:"+u.getEmail().toString());
-		    //Log.d(TAG,"Mobile:"+u.getContact_Number().toString());
-		    Toast.makeText(getApplicationContext() , "Contact:" + u.getContact_Number().toString() , Toast.LENGTH_SHORT).show();
-		    Toast.makeText(getApplication() , "user Registered" , Toast.LENGTH_SHORT).show();
-		    Toast.makeText(Signup.this , "Seeker" , Toast.LENGTH_SHORT).show();
-		    startActivity(new Intent(Signup.this , SeekerMain.class));
-	       }
+	       duplicate();
+	       Toast.makeText(this , "Recruiter " , Toast.LENGTH_SHORT).show();
+	       subref = rec_ref.child(id);
+	       User u = new User(Email , id , Contact_Number , Aadhar_Number , Street_No , Pincode , State , City , Gender , Profession , Type , Name , Alternate_Contact_Number);
+	       subref.child("Email").setValue(u.getEmail());
+	       subref.child("Name").setValue(u.getName());
+	       subref.child("Id").setValue(u.getId());
+	       subref.child("Mobile").setValue(u.getContact_Number());
+	       subref.child("Alternate Mobile").setValue(u.getAlternate_Contact_Number());
+	       subref.child("Aadhaar").setValue(u.getAadhar_Number());
+	       subref.child("Address").setValue(u.getStreet_No());
+	       subref.child("Pincode").setValue(u.getPincode());
+	       subref.child("State").setValue(spinner_state.getSelectedItem());
+	       subref.child("City").setValue(spinner_City.getSelectedItem());
+	       subref.child("Gender").setValue(spinner_gender.getSelectedItem());
+	       subref.child("Profession").setValue("");
+	       subref.child("Type").setValue(u.getType());
+	       FirebaseDatabase.getInstance().getReference().child("Users").child(id).child("Profession").setValue("");
+	       startActivity(new Intent(Signup.this , RecruiterMain.class));
+	  }
+	  else if(radioButtonseeker.isChecked())
+	  {
 	       if(spinner_profession.getSelectedItem().toString().equals("Electrician"))
 	       {
-		    Toast.makeText(getApplicationContext() , "Inside" , Toast.LENGTH_LONG).show();
-		    Log.d(TAG , Email);
-		    pd.dismiss();
-		    id = currentUser.getUid().toString();
-
+	            subref = seeker_ref.child("Electrician").child(id);
 		    User u = new User(Email , id , Contact_Number , Aadhar_Number , Street_No , Pincode , State , City , Gender , Profession , Type , Name , Alternate_Contact_Number);
-		    Log.d(TAG , database.toString());
-		    subref = seeker_ref.child("Electrician").child(id);
-		    subref.child("Email").setValue(u.getEmail().toString());
-		    subref.child("Name").setValue(u.getName().toString());
-		    subref.child("Id").setValue(u.getId().toString());
-		    subref.child("Mobile").setValue(u.getContact_Number().toString());
-		    subref.child("Alternate Mobile").setValue(u.getAlternate_Contact_Number().toString());
-		    subref.child("Aadhaar").setValue(u.getAadhar_Number().toString());
-		    subref.child("Address").setValue(u.getStreet_No().toString());
-		    subref.child("Pincode").setValue(u.getPincode().toString());
-		    subref.child("State").setValue(u.getState().toString());
-		    subref.child("City").setValue(u.getCity().toString());
-		    subref.child("Gender").setValue(u.getGender().toString());
-		    subref.child("Profession").setValue(u.getProfession().toString());
-		    subref.child("Type").setValue(u.getType().toString());
-
+		    subref.child("Email").setValue(u.getEmail());
+		    subref.child("Name").setValue(u.getName());
+		    subref.child("Id").setValue(u.getId());
+		    subref.child("Mobile").setValue(u.getContact_Number());
+		    subref.child("Alternate Mobile").setValue(u.getAlternate_Contact_Number());
+		    subref.child("Aadhaar").setValue(u.getAadhar_Number());
+		    subref.child("Address").setValue(u.getStreet_No());
+		    subref.child("Pincode").setValue(u.getPincode());
+		    subref.child("State").setValue(spinner_state.getSelectedItem());
+		    subref.child("City").setValue(spinner_City.getSelectedItem());
+		    subref.child("Gender").setValue(spinner_gender.getSelectedItem());
+		    subref.child("Profession").setValue(spinner_profession.getSelectedItem());
+		    subref.child("Type").setValue(u.getType());
 		    duplicate();
-
-		    Toast.makeText(getApplicationContext() , "Email" + u.getEmail().toString() , Toast.LENGTH_SHORT).show();
-		    // Log.d(TAG,"Email id:"+u.getEmail().toString());
-		    //Log.d(TAG,"Mobile:"+u.getContact_Number().toString());
-		    Toast.makeText(getApplicationContext() , "Contact:" + u.getContact_Number().toString() , Toast.LENGTH_SHORT).show();
-		    Toast.makeText(getApplication() , "user Registered" , Toast.LENGTH_SHORT).show();
-		    Toast.makeText(Signup.this , "Seeker" , Toast.LENGTH_SHORT).show();
-		    startActivity(new Intent(Signup.this , SeekerMain.class));
 	       }
-	  }
-	  else if(radioButtonrecruiter.isChecked())
-	  {
-	       Toast.makeText(getApplicationContext() , "Inside" , Toast.LENGTH_LONG).show();
-	       Log.d(TAG , Email);
-	       pd.dismiss();
-	       id = currentUser.getUid().toString();
-
-	       User u = new User(Email , id , Contact_Number , Aadhar_Number , Street_No , Pincode , State , City , Gender , Profession , Type , Name , Alternate_Contact_Number);
-	       Log.d(TAG , database.toString());
-	       subref = rec_ref.child(id);
-	       subref.child("Email").setValue(u.getEmail().toString());
-	       subref.child("Name").setValue(u.getName().toString());
-	       subref.child("Id").setValue(u.getId().toString());
-	       subref.child("Mobile").setValue(u.getContact_Number().toString());
-	       subref.child("Alternate Mobile").setValue(u.getAlternate_Contact_Number().toString());
-	       subref.child("Aadhaar").setValue(u.getAadhar_Number().toString());
-	       subref.child("Address").setValue(u.getStreet_No().toString());
-	       subref.child("Pincode").setValue(u.getPincode().toString());
-	       subref.child("State").setValue(u.getState().toString());
-	       subref.child("City").setValue(u.getCity().toString());
-	       subref.child("Gender").setValue(u.getGender().toString());
-	       subref.child("Profession").setValue(u.getProfession().toString());
-	       subref.child("Type").setValue(u.getType().toString());
-
-	       duplicate();
-
-	       Toast.makeText(getApplicationContext() , "Email" + u.getEmail().toString() , Toast.LENGTH_SHORT).show();
-	       // Log.d(TAG,"Email id:"+u.getEmail().toString());
-	       //Log.d(TAG,"Mobile:"+u.getContact_Number().toString());
-	       Toast.makeText(getApplicationContext() , "Contact:" + u.getContact_Number().toString() , Toast.LENGTH_SHORT).show();
-	       Toast.makeText(getApplication() , "user Registered" , Toast.LENGTH_SHORT).show();
-	       Toast.makeText(Signup.this , "Recruiter" , Toast.LENGTH_SHORT).show();
-	       startActivity(new Intent(Signup.this , RecruiterMain.class));
 	  }
      }
 

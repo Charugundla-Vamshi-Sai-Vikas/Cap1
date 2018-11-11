@@ -195,7 +195,6 @@
 		    android:layout_height="40dp"
 		    android:layout_marginTop="10dp"
 		    android:entries="@array/states"
-		    android:scrollbarSize="20dp"
 		    android:spinnerMode="dropdown" />
 
 	       <TextView
