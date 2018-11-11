@@ -16,7 +16,7 @@
 	  android:layout_marginTop="25dp"
 	  android:layout_marginBottom="25dp"
 	  android:scaleType="centerCrop"
-	  android:src="@drawable/kvsn"
+	  android:src="@drawable/profile"
 	  android:transitionName="trans1"
 	  app:civ_border_color="@color/colorPrimary"
 	  app:civ_border_width="2dp" />
@@ -29,6 +29,7 @@
      <TextView
 	  android:layout_width="wrap_content"
 	  android:layout_height="wrap_content"
+	  android:id="@+id/header_name"
 	  android:layout_marginTop="75dp"
 	  android:fontFamily="@font/castro"
 	  android:text="Vishnu Sai Nath Karumuri"
@@ -36,6 +37,7 @@
 	  android:textSize="15dp" />
      <TextView
 	  android:layout_width="wrap_content"
+	  android:id="@+id/header_mail"
 	  android:textColor="@color/white"
 	  android:layout_marginTop="10dp"
 	  android:fontFamily="sans-serif"

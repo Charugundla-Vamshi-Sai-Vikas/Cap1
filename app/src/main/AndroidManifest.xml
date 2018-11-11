@@ -31,7 +31,8 @@
 	  <activity android:name=".SeekerMain" />
 	  <activity android:name=".PhotoActivity" />
 	  <activity android:name=".EditRecruiter" />
-	  <activity android:name=".EditSeeker"></activity>
+	  <activity android:name=".EditSeeker" />
+	  <activity android:name=".PhotoUpload"></activity>
      </application>
 
 </manifest>

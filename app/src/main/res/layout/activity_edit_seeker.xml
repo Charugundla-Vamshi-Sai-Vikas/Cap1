@@ -33,7 +33,7 @@
 	       <de.hdodenhof.circleimageview.CircleImageView
 		    android:layout_width="200dp"
 		    android:onClick="image"
-		    android:id="@+id/profile_image_seeker"
+		    android:id="@+id/profile_image_seeker_edit"
 		    android:transitionName="trans1"
 		    app:layout_collapseMode="parallax"
 		    app:layout_collapseParallaxMultiplier="0.7"

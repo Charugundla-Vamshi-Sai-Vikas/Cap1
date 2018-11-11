@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import nl.psdcompany.duonavigationdrawer.views.DuoDrawerLayout;
 import nl.psdcompany.duonavigationdrawer.views.DuoMenuView;
 import nl.psdcompany.duonavigationdrawer.widgets.DuoDrawerToggle;
@@ -24,7 +25,7 @@ public class RecruiterMain extends AppCompatActivity implements DuoMenuView.OnMe
 {
      private MenuAdapter mMenuAdapter;
      private ViewHolder mViewHolder;
-     ImageView header;
+     CircleImageView header;
      FirebaseAuth mAuth;
      ProgressDialog pd;
 

@@ -1,18 +1,15 @@
 package com.kvsn.builds.cap1;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -20,18 +17,17 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-import com.theartofdev.edmodo.cropper.CropImage;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 public class SeekerProfile extends AppCompatActivity
 {
      FirebaseAuth mAuth;
      DatabaseReference mDatabase, msubref;
-     int gallerypicture = 1;
-     TextView sname, smail, saadhaar, smobile, sstate, scity, sporfession, saddress;
-     StorageReference UserProfileImagesReference;
+     TextView name, mail, aadhaar, mobile, state, city, address, profession;
+     CircleImageView profile;
 
      @Override
      protected void onCreate(Bundle savedInstanceState)
@@ -39,21 +35,31 @@ public class SeekerProfile extends AppCompatActivity
 	  super.onCreate(savedInstanceState);
 	  setContentView(R.layout.activity_seeker_profile);
 
-	  sname = findViewById(R.id.name_seeker);
-	  smail = findViewById(R.id.mail_seeker);
-	  saddress = findViewById(R.id.seeker_address);
-	  saadhaar = findViewById(R.id.seeker_aadhaar);
-	  scity = findViewById(R.id.seeker_city);
-	  smobile = findViewById(R.id.seeker_mobile);
-	  sporfession = findViewById(R.id.seeker_profession);
-	  sstate = findViewById(R.id.seeker_state);
+	  name = (TextView)findViewById(R.id.name_seeker);
+	  mail = (TextView)findViewById(R.id.mail_seeker);
+	  address = (TextView)findViewById(R.id.seeker_address);
+	  aadhaar = (TextView)findViewById(R.id.seeker_aadhaar);
+	  city = (TextView)findViewById(R.id.seeker_city);
+	  mobile = (TextView)findViewById(R.id.seeker_mobile);
+	  state = (TextView)findViewById(R.id.seeker_state);
+	  profession = (TextView)findViewById(R.id.seeker_profile_profession);
+	  profile = (CircleImageView)findViewById(R.id.profile_image_seeker);
 
 	  mDatabase = FirebaseDatabase.getInstance().getReference();
 	  mAuth = FirebaseAuth.getInstance();
-	  UserProfileImagesReference = FirebaseStorage.getInstance().getReference().child("Profile Pictures");
 
 	  Toast.makeText(this , "Test In Profile" , Toast.LENGTH_SHORT).show();
 	  retrieve();
+
+	  profile.setOnClickListener(new View.OnClickListener()
+	  {
+	       @Override
+	       public void onClick(View v)
+	       {
+		    ActivityOptionsCompat actop = ActivityOptionsCompat.makeSceneTransitionAnimation(SeekerProfile.this , profile , ViewCompat.getTransitionName(profile));
+		    startActivity(new Intent(SeekerProfile.this , PhotoActivity.class));
+	       }
+	  });
      }
 
      public void retrieve()
@@ -65,14 +71,18 @@ public class SeekerProfile extends AppCompatActivity
 	       @Override
 	       public void onDataChange(@NonNull DataSnapshot dataSnapshot)
 	       {
-		    sname.setText(dataSnapshot.child("Name").getValue(String.class));
-		    smail.setText(dataSnapshot.child("Email").getValue(String.class));
-		    saddress.setText(dataSnapshot.child("Address").getValue(String.class));
-		    saadhaar.setText(dataSnapshot.child("Aadhaar").getValue(String.class));
-		    scity.setText(dataSnapshot.child("City").getValue(String.class));
-		    smobile.setText(dataSnapshot.child("Mobile").getValue(String.class));
-		    sporfession.setText(dataSnapshot.child("Profession").getValue(String.class));
-		    sstate.setText(dataSnapshot.child("State").getValue(String.class));
+		    name.setText(dataSnapshot.child("Name").getValue(String.class));
+		    mail.setText(dataSnapshot.child("Email").getValue(String.class));
+		    address.setText(dataSnapshot.child("Address").getValue(String.class));
+		    aadhaar.setText(dataSnapshot.child("Aadhaar").getValue(String.class));
+		    city.setText(dataSnapshot.child("City").getValue(String.class));
+		    mobile.setText(dataSnapshot.child("Mobile").getValue(String.class));
+		    state.setText(dataSnapshot.child("State").getValue(String.class));
+		    profession.setText(dataSnapshot.child("Profession").getValue(String.class));
+		    if(dataSnapshot.hasChild("urlToImage"))
+		    {
+			 Picasso.get().load(dataSnapshot.child("urlToImage").getValue().toString()).transform(new CropCircleTransformation()).into(profile);
+		    }
 	       }
 
 	       @Override
@@ -83,20 +93,15 @@ public class SeekerProfile extends AppCompatActivity
 	  });
      }
 
-     public void image(View v)
-     {
-          startActivity(new Intent(SeekerProfile.this , PhotoActivity.class));
-     }
-
-     public void edit_seeker(View v)
-     {
-          startActivity(new Intent(SeekerProfile.this , EditSeeker.class));
-          overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-     }
      @Override
      public void onBackPressed()
      {
 	  super.onBackPressed();
-	  finish();
+	  //finish();
+     }
+
+     public void edit_seeker(View v)
+     {
+	  startActivity(new Intent(SeekerProfile.this , EditSeeker.class));
      }
 }

@@ -38,7 +38,7 @@
 		    app:layout_collapseMode="parallax"
 		    app:layout_collapseParallaxMultiplier="0.7"
 		    android:layout_gravity="center"
-		    android:src="@drawable/kvsn"
+		    android:src="@drawable/profile"
 		    app:civ_border_width="2dp"
 		    app:civ_border_overlay="true"
 		    app:civ_border_color="#00BCD4"

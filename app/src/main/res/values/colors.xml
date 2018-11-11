@@ -5,4 +5,5 @@
     <color name="colorAccent">#448AFF</color>
     <color name="blck">@android:color/black</color>
     <color name="white">@android:color/white</color>
+    <color name="headings">#3797CF</color>
 </resources>

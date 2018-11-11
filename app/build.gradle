@@ -36,11 +36,11 @@ dependencies {
 
     //firebase libraries impleentation
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
-    implementation 'com.google.firebase:firebase-core:16.0.4'
+    implementation 'com.google.firebase:firebase-core:16.0.5'
     implementation 'com.google.firebase:firebase-messaging:17.3.4'
     implementation 'com.google.firebase:firebase-auth:16.0.5'
-    implementation 'com.google.firebase:firebase-database:16.0.3'
-    implementation 'com.google.firebase:firebase-storage:16.0.3'
+    implementation 'com.google.firebase:firebase-database:16.0.5'
+    implementation 'com.google.firebase:firebase-storage:11.8.0'
 
     //third party libraries implementations
     //for custom navigation drawer from Psd company github
@@ -54,5 +54,6 @@ dependencies {
     implementation 'net.steamcrafted:materialiconlib:1.1.5' //for material icons
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.+' //for selecting Image
     implementation 'com.squareup.picasso:picasso:2.71828' //for picasso
+    implementation 'jp.wasabeef:picasso-transformations:2.2.1' //for picasso transformation
     implementation 'com.github.bumptech.glide:glide:3.7.0' //for loading image alternate
 }
